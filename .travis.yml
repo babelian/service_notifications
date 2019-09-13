@@ -1,45 +1,29 @@
 language: ruby
-bundler_args: --deployment --without development
-cache: bundler
-sudo: required
 
-rvm:
-  - 2.5.3
-
-before_install:
-  - gem update --system
-
-before_script:
-  - bundle exec rake db:reset
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-script:
-  - bundle exec rake spec
+services:
+  - docker
 
 env:
   global:
     - DOCKER_COMPOSE_VERSION=1.24.1
-    - CC_TEST_REPORTER_ID=150f89fbf47bd88ac0c730d2824d44f1c5436086db5adf6477147e2d1bbc4ace
+    - CC_TEST_REPORTER_ID=4c25c5ffed6f2daa3c7c7cd2a91f96a79b49f12fd5f846675b0e0f2ec3e2f0e9
 
-# services:
-#   - docker
-# before_install:
-#   - sudo rm /usr/local/bin/docker-compose
-#   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-#   - chmod +x docker-compose
-#   - sudo mv docker-compose /usr/local/bin
-# install: skip
-# before_script:
-#   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-#   - chmod +x ./cc-test-reporter
-#   - ./cc-test-reporter before-build
-#   - GIT_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
-#   - GIT_COMMIT_SHA=$TRAVIS_PULL_REQUEST_SHA
-# script:
-#   - docker-compose build
-#   - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake db:reset
-#   - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
-# after_script:
-#   - sudo cp -R . /app
-#   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+install: skip
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+  - GIT_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
+  - GIT_COMMIT_SHA=$TRAVIS_PULL_REQUEST_SHA
+script:
+  - docker-compose build
+  - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake db:reset
+  - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
+after_script:
+  - sudo cp -R . /app
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
