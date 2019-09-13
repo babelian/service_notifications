@@ -18,10 +18,13 @@ before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - GIT_BRANCH=$TRAVIS_PULL_REQUEST_BRANCH
+  - GIT_COMMIT_SHA=$TRAVIS_PULL_REQUEST_SHA
 script:
   - env
   - docker-compose build
-  - docker-compose run -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake db:reset
-  - docker-compose run -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
+  - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake db:reset
+  - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
 after_script:
+  - sudo cp -R . /app
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
