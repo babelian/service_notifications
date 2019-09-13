@@ -14,4 +14,4 @@ blocks:
         - name: rspec
           commands:
             - docker-compose build
-            - docker-compose run app rake spec
+            - docker-compose run app
