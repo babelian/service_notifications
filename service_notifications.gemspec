@@ -4,7 +4,7 @@ Gem::Specification.new do |s| # rubocop:disable Metrics/BlockLength
   s.name        = 'service_notifications'
   s.version     = ServiceNotifications::VERSION
 
-  s.summary     = 'Multi-Tenant templated notification system for Email/SMS/Slack etc'
+  s.summary     = 'Multi-Tenant templated notification system for Email/SMS/Slack etc.'
   s.homepage    = 'https://github.com/babelian/service_notifications'
   s.authors     = ['Zach Powell']
   s.email       = 'zach@babelian.net'

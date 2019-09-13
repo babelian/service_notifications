@@ -1,9 +1,9 @@
 GIT
   remote: https://github.com/babelian/ruby_extensions.git
-  revision: d90382c536cf205f54f35a4cfe09dbb516f30be0
-  tag: v1.12.0
+  revision: 4783bc5779774ac1a3a3de4ee014a050d2b2d286
+  tag: v1.12.2
   specs:
-    ruby_extensions (1.12.0)
+    ruby_extensions (1.12.2)
 
 GIT
   remote: https://github.com/babelian/service_operation.git
