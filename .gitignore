@@ -1,0 +1,7 @@
+coverage/
+tmp/
+vendor/
+deploy.zip
+node_modules
+.serverless
+package-lock.json

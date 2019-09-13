@@ -1,0 +1,16 @@
+version: '3.6'
+services:
+  app:
+    tty: true
+    stdin_open: true
+    build: .
+    command: bundle exec rake spec
+    volumes:
+      - .:/app
+    environment:
+      - AWS_ACCESS_KEY_ID
+      - AWS_SECRET_ACCESS_KEY
+      - DYNAMODB_ACCESS_KEY_ID
+      - DYNAMODB_SECRET_ACCESS_KEY
+      - MAILGUN_API_KEY
+      - MAILGUN_DOMAIN

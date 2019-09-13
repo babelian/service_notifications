@@ -1,0 +1,6 @@
+# https://github.com/stevenringo/lambda-ruby-pg-nokogiri/blob/master/Dockerfile
+
+FROM lambci/lambda:build-ruby2.5
+RUN gem update bundler
+
+CMD "/bin/bash"
