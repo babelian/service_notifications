@@ -26,4 +26,4 @@ script:
   - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
 after_script:
   - sudo cp -R . /app
-  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+  - ./cc-test-reporter after-build --prefix $(readlink -f .) --exit-code $TRAVIS_TEST_RESULT
