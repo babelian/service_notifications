@@ -1,0 +1,17 @@
+version: v1.0
+name: service_notifications
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: service_notifications
+    task:
+      prologue:
+        commands:
+          - checkout
+      jobs:
+        - name: rspec
+          commands:
+            - docker-compose build
+            - docker-compose run app rake spec
