@@ -21,6 +21,7 @@ before_script:
 script:
   - env
   - docker-compose build
-  - docker-compose run -e TRAVIS_BRANCH -e TRAVIS_COMMIT app
+  - docker-compose run -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake db:reset
+  - docker-compose run -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
