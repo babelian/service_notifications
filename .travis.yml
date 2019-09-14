@@ -15,7 +15,6 @@ cache:
     - ~/.cache
 
 before_cache:
-  # Save tagged docker images
   - >
     mkdir -p $HOME/docker && docker images -a --filter='reference=*app*' --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
     | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
@@ -39,5 +38,5 @@ script:
   - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake db:reset
   - docker-compose run -e GIT_BRANCH -e TRAVIS_BRANCH -e TRAVIS_COMMIT app bundle exec rake spec
 after_script:
-  - sudo cp -R . /app
-  - ./cc-test-reporter after-build --prefix $(readlink -f .) --exit-code $TRAVIS_TEST_RESULT
+  # - sudo cp -R . /app
+  - docker-compose run -e GIT_BRANCH -e GIT_COMMIT_SHA -e CC_TEST_REPORTER_ID app ./cc-test-reporter after-build --prefix $(readlink -f .) --exit-code $TRAVIS_TEST_RESULT
