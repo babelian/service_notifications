@@ -2,10 +2,13 @@
 
 Provides a uniform method for pushing notifications to users.
 
+[![Build Status](https://www.travis-ci.com/babelian/service_notifications.svg?branch=master)](https://www.travis-ci.com/babelian/service_notifications)
+
 [![Maintainability](https://api.codeclimate.com/v1/badges/67caebc2fd1519c837ec/maintainability)](https://codeclimate.com/github/babelian/service_notifications/maintainability)
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/67caebc2fd1519c837ec/test_coverage)](https://codeclimate.com/github/babelian/service_notifications/test_coverage)
 
+[![Inline docs](http://inch-ci.org/github/babelian/service_notifications.svg?branch=master)](http://inch-ci.org/github/babelian/service_notifications)
 
 ## Features
 
