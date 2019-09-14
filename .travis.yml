@@ -11,6 +11,7 @@ env:
 cache:
   directories:
     - $HOME/docker
+    - $HOME/.composer/cache/files
 
 before_install:
   # install docker-compose

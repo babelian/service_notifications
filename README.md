@@ -15,13 +15,13 @@ Provides a uniform method for pushing notifications to users.
 * Run as a gem inside your application (with an [ActiveRecord](https://github.com/rails/rails) backend) or stand alone via AWS [Lambda](https://aws.amazon.com/lambda/) (with [DynamoDB](https://aws.amazon.com/dynamodb/)).
 * Store multiple configurations (each with their own templates) to support a multi-tenant model.
 * Templating:
- * Separate templates for each configuration with versioning.
- * Rendered via [Liquid](http://liquidmarkup.org), with support for object interpolations.
- * Optional [Premailer](https://github.com/premailer/premailer) processing.
+  * Separate templates for each configuration with versioning.
+  * Rendered via [Liquid](http://liquidmarkup.org), with support for object interpolations.
+  * Optional [Premailer](https://github.com/premailer/premailer) processing.
 * Adapters for:
- * [MailGun](https://mailgun.com)
- * [Slack](https://slack.com)
- * ... Apple/Android/Twilio etc to come.
+  * [MailGun](https://mailgun.com)
+  * [Slack](https://slack.com)
+  * ... Apple/Android/Twilio etc to come.
 
 
 ## Lifecycle
