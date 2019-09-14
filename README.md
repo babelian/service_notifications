@@ -73,6 +73,18 @@ The `Channel` will inject the `Post` data into a `Content` class which optionall
   )
 ```
 
+If deployed to AWS, you can then invoke the function:
+
+```bash
+aws lambda invoke --function-name service-notifications-make_request-production --payload '{"instant":true,"api_key":"___AWS_KEY___","notification":"inline","recipients":[{"uid":1,"email":"__TEST_EMAIL__"}],"objects":{"plain":"Plain content","html":"\u003cstrong\u003eHTML\u003c/strong\u003e"}}' /dev/stdout
+```
+
+or via AWS Gateway API:
+
+```
+curl -d '{"instant":true,"api_key":"___AWS_KEY___","notification":"inline","recipients":[{"uid":1,"email":"__TEST_EMAIL__"}],"objects":{"plain":"Plain content","html":"\u003cstrong\u003eHTML\u003c/strong\u003e"}}' -H "Content-Type: application/json" -X POST https://__API_GATEWAY_ENDPOINT__.us-east-1.amazonaws.com/production/make_request
+```
+
 ## AWS Deployment
 
 * See `Makefile` for setup and deployment.
@@ -80,6 +92,7 @@ The `Channel` will inject the `Post` data into a `Content` class which optionall
 
 ## TODO
 
-- [] Separate out gems for ActiveRecord and AWS dependencies (eg `service_notifications-active_record`) to remove gem dependencies.
-- [] Better environment/configuration setup (mostly ENV or hardcoded).
-- [] Documentation
+- [ ] Separate out gems for ActiveRecord and AWS dependencies (eg `service_notifications-active_record`) to remove gem dependencies.
+- [ ] Better environment/configuration setup (mostly ENV or hardcoded).
+- [ ] Documentation
+- [ ] DynanmoDB posts table to queue Lamba for backgrounding the processing (currently only works with instant: true processing).
