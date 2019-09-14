@@ -10,7 +10,7 @@ env:
 
 cache:
   directories:
-    - $HOME/docker
+    # - $HOME/docker
     - $HOME/.composer/cache/files
 
 before_install:
@@ -21,8 +21,8 @@ before_install:
   - sudo mv docker-compose /usr/local/bin
 
   # copy docker cache
-  - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
-  - docker images
+  # - if [[ -d $HOME/docker ]]; then ls $HOME/docker/*.tar.gz | xargs -I {file} sh -c "zcat {file} | docker load"; fi
+  # - docker images
 
   # code-climate
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -40,10 +40,10 @@ after_script:
   # code-climate
   - docker-compose run -e TRAVIS_BRANCH -e TRAVIS_COMMIT -e CC_TEST_REPORTER_ID app ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
-before_cache:
-  # build cache to upload
-  - docker images -a --filter='reference=*app*' --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-  - docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-  - >
-    mkdir -p $HOME/docker && docker images -a --filter='reference=*app*' --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
-    | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
+# before_cache:
+#   # build cache to upload
+#   - docker images -a --filter='reference=*app*' --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+#   - docker images -a --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+#   - >
+#     mkdir -p $HOME/docker && docker images -a --filter='reference=*app*' --filter='dangling=false' --format '{{.Repository}}:{{.Tag}} {{.ID}}'
+#     | xargs -n 2 -t sh -c 'test -e $HOME/docker/$1.tar.gz || docker save $0 | gzip -2 > $HOME/docker/$1.tar.gz'
