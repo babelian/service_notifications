@@ -26,6 +26,11 @@ module ServiceNotifications
         Money.locale_backend = :currency # depreciation warning
         Money.new(amount.to_i, currency).format(options)
       end
+
+      def time(input, format = nil)
+        format ||= "%FT%T%:z"
+        Time.parse(input).strftime(format)
+      end
     end
 
     params do
