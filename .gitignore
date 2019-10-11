@@ -1,7 +1,8 @@
+.bundle
+.serverless
 coverage/
+deploy.zip
+node_modules/
+package-lock.json
 tmp/
 vendor/
-deploy.zip
-node_modules
-package-lock.json
-.serverless
