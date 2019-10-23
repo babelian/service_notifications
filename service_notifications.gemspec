@@ -33,7 +33,7 @@ Gem::Specification.new do |s| # rubocop:disable Metrics/BlockLength
   s.add_runtime_dependency 'rest-client', '2.0.2'
 
   # Dev
-  s.add_runtime_dependency 'nokogiri', '1.9.1'
+  s.add_runtime_dependency 'nokogiri', '1.10.4'
 
   s.add_development_dependency 'database_cleaner', '1.7.0'
   s.add_development_dependency 'fabrication', '2.20.1'
@@ -46,5 +46,5 @@ Gem::Specification.new do |s| # rubocop:disable Metrics/BlockLength
   s.add_development_dependency 'rspec', '3.7.0'
   s.add_development_dependency 'simplecov', '0.16.1'
   s.add_development_dependency 'sqlite3' # in Dockerfile
-  s.add_development_dependency 'yard', '0.9.16'
+  s.add_development_dependency 'yard', '0.9.20'
 end
