@@ -11,6 +11,7 @@ RUN apk add --update \
     git \
     && echo "gem: --no-document" > ~/.gemrc \
     && gem install bundler --version 1.17.3 \
+    && gem install nokogiri --version 1.10.4 \
     && gem install sqlite3 --version 1.3.13
 
 RUN mkdir -p /app
