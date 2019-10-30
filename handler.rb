@@ -5,7 +5,7 @@ require 'service_notifications/aws'
 
 include ServiceNotifications # rubocop:disable Style/MixinUsage
 
-def make_request(event:, _context:)
+def make_request(event:, _context: nil)
   body = event['body'] || event.deep_symbolize_keys
   body = JSON.parse(body, symbolize_names: true) if body.is_a?(String)
   result = MakeRequest.call(body)
