@@ -13,7 +13,7 @@
 # make image && make install && make install_serverless && make serverless
 
 # Test:
-# aws lambda invoke --function-name service-notifications-make_request-production --payload '{"instant":true,"api_key":"___AWS_KEY___","notification":"inline","recipients":[{"uid":1,"email":"__TEST_EMAIL__"}],"objects":{"plain":"hi","html":"\u003cstrong\u003ehello\u003c/strong\u003e"}}' /dev/stdout
+# aws lambda invoke --function-name service-notifications-production-make_request --payload '{"instant":true,"api_key":"___AWS_KEY___","notification":"inline","recipients":[{"uid":1,"email":"__TEST_EMAIL__"}],"objects":{"plain":"hi","html":"\u003cstrong\u003ehello\u003c/strong\u003e"}}' /dev/stdout
 
 check-role:
 	ifndef ROLE
