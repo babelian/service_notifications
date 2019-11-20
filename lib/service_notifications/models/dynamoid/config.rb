@@ -20,6 +20,10 @@ module ServiceNotifications
     has_many :templates, class: Template
     has_many :requests, class: Request
 
+    #
+    # Validations
+    #
+
     validates :api_key, presence: true
   end
 end

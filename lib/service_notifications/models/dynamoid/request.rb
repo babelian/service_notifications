@@ -33,12 +33,12 @@ module ServiceNotifications
     # Instance Methods
     #
 
-    def unprocessed_posts
-      Post.where(request_id: id).consistent.reject(&:processed_at)
-    end
-
     def templates
       Template.where(config_id: config.id, version: template_version, notification: notification)
+    end
+
+    def unprocessed_posts
+      Post.where(request_id: id).consistent.reject(&:processed_at)
     end
   end
 end
