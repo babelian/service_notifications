@@ -2,6 +2,7 @@
 
 require 'ruby_extensions/hash_extensions'
 require 'service_operation'
+require 'service_notifications/parametric'
 
 Hash.include RubyExtensions::HashExtensions
 
