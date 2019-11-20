@@ -44,31 +44,53 @@ The `Channel` will inject the `Post` data into a `Content` class which optionall
       template_version: 'v1',
       channels: {
         mail: {
-          adapter: { name: 'mailgun' },
+          adapter: { name: 'mailgun', domain: 'orgname.org', api_key: '...' },
           from: 'Notification<noreply@orgname.org>', reply_to: 'Notification<noreply@orgname.org>'
-        }
-      }
+        },
+        # Other channels for Twillo etc are possible for different notification types.
+        push: { ... },
+        text: { ... }
+      },
+      objects: { org_name: 'Org Name' }
     }
   )
 
   html_template = Template.create(
     config_id: config.id, version: 'v1',
-    notification: 'inline', channel: 'mail', format: 'html', data: '{{html}}'
+    notification: 'welcome', channel: 'mail', format: 'html',
+    # Note: Markdown isn't rendering the opening bracket on tags, but they should obviously be there.
+    data: <<~HTML
+      <title>Email Subject</title>
+      <body>
+        <p>Welcome {{name}}!</p>
+        <p>
+          <a href={{url}}>Go here to start</a>
+        </p>
+        <p>- {{org_name}}</p>
+      </body>
+    HTML
   )
 
   plain_template = Template.create(
     config_id: config.id, version: 'v1',
-    notification: 'inline', channel: 'mail', format: 'plain', data: '{{plain}}'
+    notification: 'welcome', channel: 'mail', format: 'plain',
+    data: <<~STR
+      Subject: Welcome!
+      Welcome {{name}}
+
+      Go to {{url}} to get started.
+
+      - {{org_name}}
+    STR
   )
 
   result = MakeRequest.call(
     instant: true, api_key: config.api_key, notification: 'inline',
     recipients: [
-      { uid: 1, email: 'your@email.com' }
+      { uid: 1, email: 'your@email.com', objects: { name: 'Bob' } }
     ],
     objects: {
-      plain: 'Plain content',
-      html: '<title>Email Subject</title><strong>HTML</strong> content.'
+      url: 'https://orgname.org/welcome'
     }
   )
 ```

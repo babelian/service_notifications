@@ -4,6 +4,7 @@ module ServiceNotifications
   # Receive the request, validate it, and queue {MakePosts}.
   #
   # @todo add transactional wrapper or error handling for {MakePosts}.
+  # @todo :version param to override.
   class MakeRequest < Action
     ERRORS = {
       authorization_failed: 'Authorization failed'
