@@ -4,4 +4,4 @@ ruby '>=2.5.3'
 gemspec
 
 gem 'ruby_extensions', github: 'babelian/ruby_extensions', tag: 'v1.12.2'
-gem 'service_operation', github: 'babelian/service_operation', tag: 'v1.0.0'
+gem 'service_operation', github: 'babelian/service_operation', tag: 'v1.3.0'
