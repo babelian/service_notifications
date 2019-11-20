@@ -43,13 +43,15 @@ The `Channel` will inject the `Post` data into a `Content` class which optionall
     data: {
       template_version: 'v1',
       channels: {
+        # implement {{Channels::Mail}}
         mail: {
+          # for use with {{Adapters::Mailing}}
           adapter: { name: 'mailgun', domain: 'orgname.org', api_key: '...' },
           from: 'Notification<noreply@orgname.org>', reply_to: 'Notification<noreply@orgname.org>'
         },
-        # Other channels for Twillo etc are possible for different notification types.
-        push: { ... },
-        text: { ... }
+        # Other channels Push/Text via Slack, Twillo etc possible.
+        # push: { ... },
+        # text: { ... }
       },
       objects: { org_name: 'Org Name' }
     }
@@ -84,7 +86,9 @@ The `Channel` will inject the `Post` data into a `Content` class which optionall
   )
 
   result = MakeRequest.call(
-    instant: true, api_key: config.api_key, notification: 'inline',
+    api_key: config.api_key, notification: 'welcome',
+    instant: true, # do not queue the processing, return full response for debug purposes.
+    debug: false,  # would run everything except the {Adapter#call} and return sample payload.
     recipients: [
       { uid: 1, email: 'your@email.com', objects: { name: 'Bob' } }
     ],
