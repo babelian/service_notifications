@@ -11,15 +11,21 @@ module ServiceNotifications
       { request_id: post.request_id }
     end
 
+    let(:processing_error) { StandardError.new('test') }
+
     it 'works' do
       expect_success
-      post.reload
-
-      expect(post.processed_at).not_to be_nil
+      expect(post.reload.processed_at).not_to be_nil
       expect(post.response).to match a_hash_including(
-        body: post.content.body,
-        status: post.channel.adapter[:status]
+        body: post.content.body, status: post.channel.adapter[:status]
       )
+    end
+
+    it 'captures errors' do
+      allow(ProcessPost).to receive(:call).with(post: post, debug: false).and_raise processing_error
+
+      expect_failure
+      expect(output.errors[:base]).to eq [{ post_id: post.id, error: processing_error }]
     end
   end
 end
