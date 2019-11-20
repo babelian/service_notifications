@@ -17,12 +17,6 @@ module ServiceNotifications
     # Instance Methods
     #
 
-    describe '#adapter' do
-      it 'works' do
-        expect(post.adapter).to be_a(Adapter)
-      end
-    end
-
     it '#channel is loaded from request' do
       expect(post.channel).to be_a(Channel)
       expect(post.channel.name).to eq(post.kind)

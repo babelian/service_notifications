@@ -7,14 +7,11 @@ module ServiceNotifications
     #   uid: 3rd party user id
     #   data: user payload (email, objects, etc)
     #   response: brief reply/confirmation from adapter.
+    #
+    # @todo remove {Content} dependency.
     module Post
       def self.included(base)
         base.include Models::Base
-      end
-
-      # @return [Adapter]
-      def adapter
-        Adapter.load channel.adapter.merge(content: content)
       end
 
       # @return [Channel]

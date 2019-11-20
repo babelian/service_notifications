@@ -21,12 +21,17 @@ module ServiceNotifications
     def call
       return if processed?
 
-      post.response = debug ? post.adapter.debug : post.adapter.call
+      post.response = debug ? adapter.debug : adapter.call
       post.processed_at = Time.now
       post.save!
     end
 
     private
+
+    # @return [Adapter]
+    def adapter
+      Adapter.load post.channel.adapter.merge(content: post.content)
+    end
 
     def post
       context { Post.find(post_id) }
