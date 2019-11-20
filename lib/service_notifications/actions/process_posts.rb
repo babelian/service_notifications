@@ -10,12 +10,12 @@ module ServiceNotifications
       request Request, optional: true
     end
 
-    def call
-      posts.each(&method(:process))
-    end
-
     before do
       require_at_least_one_of(:request_id, :request)
+    end
+
+    def call
+      posts.each(&method(:process))
     end
 
     private
