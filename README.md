@@ -58,7 +58,6 @@ The `Channel` will inject the `Post` data into a `Content` class which optionall
   html_template = Template.create(
     config_id: config.id, version: 'v1',
     notification: 'welcome', channel: 'mail', format: 'html',
-    # Note: Markdown isn't rendering the opening bracket on tags, but they should obviously be there.
     data: <<~HTML
       <title>Email Subject</title>
       <body>
