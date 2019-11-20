@@ -7,12 +7,11 @@ module ServiceNotifications
       debug :boolean, default: false
 
       request_id :integer, optional: true
-      request 'service_notifications/request', optional: true
+      request Request, optional: true
     end
 
     def call
       posts.each(&method(:process))
-      fail! if context.errors.present?
     end
 
     before do
@@ -22,20 +21,18 @@ module ServiceNotifications
     private
 
     def posts
-      context.posts ||= request.unprocessed_posts
-    end
-
-    def process(post)
-      ProcessPost.call(post: post, debug: debug)
-    rescue StandardError => e
-      puts e.inspect
-      puts e.backtrace
-      context.errors ||= []
-      context.errors << { post_id: post.id, error: e }
+      context { request.unprocessed_posts }
     end
 
     def request
-      context.request ||= Request.find(request_id)
+      context { Request.find(request_id) }
+    end
+
+    # @todo Error handling, retry of posts.
+    def process(post)
+      ProcessPost.call(post: post, debug: debug)
+    rescue StandardError => e
+      errors.add(:base, post_id: post.id, error: e)
     end
   end
 end

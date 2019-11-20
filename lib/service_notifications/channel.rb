@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module ServiceNotifications
-  # A destination to Post to.
+  # A destination to send a {Post} to.
+  # Examples would be Mail, Chat, Text, Push. Antipattern would be Slack (should be Chat).
+  #
+  # @abstract
   class Channel < Initializer
     params do
       enabled :boolean, default: -> { true }

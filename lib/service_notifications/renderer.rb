@@ -4,16 +4,20 @@ require 'liquid'
 
 module ServiceNotifications
   # Render a Liquid Template (https://shopify.github.io/liquid/basics/introduction)
+  #
   # @attr [String] template, a String or {Template}
   class Renderer < Initializer
-    DEFAULT_OPTIONS = {
+    DEFAULT_LIQUID_OPTIONS = {
       error_mode: :strict,
       strict_filters: true,
       strict_variables: true
     }.freeze
 
-    # Filters
+    # Filters for {Liquid::Template}
     module Filters
+      # @example
+      #   "{{ '100USD' | money: 'no_cents' }}"
+      #   money('100USD', :no_cents) => $1
       def money(input, format = nil)
         amount, currency = input.scan(/([0-9]*)([A-Z]{3})/).first
         raise "invalid input: #{input}" unless amount
@@ -28,7 +32,7 @@ module ServiceNotifications
       end
 
       def time(input, format = nil)
-        format ||= "%FT%T%:z"
+        format ||= '%FT%T%:z'
         Time.parse(input).strftime(format)
       end
     end
@@ -56,7 +60,7 @@ module ServiceNotifications
 
     # @return [Liquid::Template] loaded with the {template}
     def liquid
-      @liquid ||= Liquid::Template.parse(template, DEFAULT_OPTIONS)
+      @liquid ||= Liquid::Template.parse(template, DEFAULT_LIQUID_OPTIONS)
     end
   end
 end

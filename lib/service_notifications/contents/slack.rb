@@ -6,6 +6,8 @@ module ServiceNotifications
     # https://api.slack.com/messaging/sending
     # https://api.slack.com/messaging/composing
     # https://api.slack.com/tools/block-kit-builder
+    #
+    # @todo depreciate in favor of Contents::Chat and abstract Slack payload.
     class Slack < Content
       PAYLOAD_DEFAULTS = {
         mrkdwn: true,

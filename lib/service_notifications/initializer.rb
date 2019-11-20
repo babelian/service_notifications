@@ -3,8 +3,10 @@
 require 'service_operation'
 
 module ServiceNotifications
-  # Abstract Initialization class
+  # Abstract Initialization class to make objects with validated params.
+  #
   # @abstract
+  # @todo remove {ServiceOperation::Base} dependency to remove business logic modules.
   class Initializer
     include ServiceOperation::Base
 

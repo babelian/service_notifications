@@ -6,24 +6,29 @@ module ServiceNotifications
     class Mail < Content
       PLAIN_SUBJECT_REGEXP = /^Subject: (.*)/.freeze
 
+      # @return [String]
       def from
         post.data[:from] || post.objects[:from] || channel.from
       end
 
+      # @return [String]
       def reply_to
         post.data[:reply_to] || post.objects[:reply_to] || channel.reply_to
       end
 
+      # @return [String]
       def to
         post.data[:email]
       end
 
+      # @return [String] pulls from data, <title> tag, or first line "Subject: ..."
       def subject
         subject = post.data[:subject] || post.objects[:subject]
         subject ||= html.to_s[%r{<title>(.*)</title>}, 1] || rendered.plain[/^Subject: (.*)/, 1]
         subject.try(:strip) || 'no subject'
       end
 
+      # @return [String]
       def html
         return @html if instance_variable_defined?('@html')
 
@@ -32,6 +37,7 @@ module ServiceNotifications
         @html
       end
 
+      # @return [String]
       def plain
         return @plain if instance_variable_defined?('@plain')
 

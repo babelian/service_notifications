@@ -1,22 +1,23 @@
 # frozen_string_literal: true
 
 module ServiceNotifications
-  # Receive the request, validate it and Queue
+  # Receive the {Post}, run {Post#adapter.call}, and mark processed.
   class ProcessPost < Action
     input do
       debug :boolean, default: false
       post_id :integer, optional: true
-      post 'service_notifications/post', optional: true
+      post Post, optional: true
     end
 
     output do
-      post 'service_notifications/post'
+      post Post
     end
 
     before do
       require_at_least_one_of(:post_id, :post)
     end
 
+    # @todo Error handling, esp ActiveRecord edge case.
     def call
       return if processed?
 
@@ -28,7 +29,7 @@ module ServiceNotifications
     private
 
     def post
-      context.post ||= Post.find post_id
+      context { Post.find(post_id) }
     end
 
     def processed?

@@ -2,7 +2,7 @@ require 'spec_helper'
 
 # ServiceNotifictions
 module ServiceNotifications
-  describe MakeRequest, type: :operation, skip: true do
+  describe MakeRequest, type: :operation do
     let(:config) { Fabricate(:config) }
     let(:notification) { 'test' }
 
@@ -35,7 +35,7 @@ module ServiceNotifications
 
       # it 'passes through Request::SCHEMA errors' do
       #   input[:notification] = 1
-      #   expect(output.data_errors).to be_present
+      #   expect(output.data_errors).to be_a(Hash)
       # end
     end
 
@@ -52,8 +52,9 @@ module ServiceNotifications
         expect(job.payload_object.args).to eq [request_id: request.id]
       end
 
-      it 'runs MakePosts instantly when instant: true' do
+      xit 'runs MakePosts instantly when instant: true' do
         input[:instant] = true
+
         allow(MakePosts).to receive(:call).with(
           request: kind_of(Request), instant: true, debug: false
         ).and_return(
@@ -62,7 +63,7 @@ module ServiceNotifications
         expect(output.posts).to eq [1]
       end
 
-      it 'debug: true bypasses adapter.call' do
+      xit 'debug: true bypasses adapter.call' do
         input[:debug] = true
         expect(output.posts.first.response).to match a_hash_including(debugged: true)
       end

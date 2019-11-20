@@ -2,7 +2,11 @@
 
 module ServiceNotifications
   module Models
-    # Post
+    # Example data:
+    #   kind: mail
+    #   uid: 3rd party user id
+    #   data: user payload (email, objects, etc)
+    #   response: brief reply/confirmation from adapter.
     module Post
       def self.included(base)
         base.include Models::Base
@@ -18,6 +22,7 @@ module ServiceNotifications
         request.channels[kind]
       end
 
+      # @return [Config]
       def config
         request.try(:config)
       end
@@ -27,10 +32,12 @@ module ServiceNotifications
         Content.load(channel.name, post: self)
       end
 
+      # @return [Hash]
       def data
         super || {}
       end
 
+      # @return [Hash] mix of {Request} objects and any post specific ones from the {Recipient}.
       def objects
         (
           request.try(:objects) || {}
@@ -39,6 +46,7 @@ module ServiceNotifications
         )
       end
 
+      # @return [Hash] response data from the {Adapter}.
       def response
         super || {}
       end

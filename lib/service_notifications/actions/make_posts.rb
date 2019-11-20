@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module ServiceNotifications
-  # Make each {Post} for the {Request}
+  # Make each {Post} for the {Request}.
+  #
+  # @todo add transactional wrapper or error handling for {ProcessPosts}.
   class MakePosts < Action
     input do
       instant :boolean, optional: true
@@ -21,7 +23,7 @@ module ServiceNotifications
     end
 
     def call
-      return if processed? && posts # set posts as its assured
+      return if processed? && posts # idempotent check and set {#posts} as its assured in output.
 
       recipients.each do |recipient|
         channels.keys.each do |channel|
@@ -53,11 +55,11 @@ module ServiceNotifications
     #
 
     def posts
-      context.fetch { request.posts }
+      context { request.posts }
     end
 
     def request
-      context.fetch { Request.find(request_id) }
+      context { Request.find(request_id) }
     end
 
     def recipients
@@ -69,7 +71,7 @@ module ServiceNotifications
     #
 
     def create_post(channel, recipient = nil)
-      return unless recipient.post?(notification, channel)
+      return unless recipient.post?(notification, channel) # check recipient is subscribed.
 
       posts.create!(
         kind: channel.to_s, uid: recipient.uid, data: recipient.data, request_id: request.id

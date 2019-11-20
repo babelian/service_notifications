@@ -10,6 +10,7 @@ module ServiceNotifications
         base.include Models::Base
       end
 
+      # See config_fabricator.rb for examples.
       SCHEMA = Parametric::Schema.new do
         field(:channels).type(:hash).schema do
           field(:mail).schema do
@@ -29,6 +30,7 @@ module ServiceNotifications
         field(:template_version).type(:string).required
       end
 
+      # @return [String]
       def api_key
         super || begin
           self[:api_key] = SecureRandom.hex(16)
@@ -36,24 +38,30 @@ module ServiceNotifications
         end
       end
 
+      # @return [Array<Channel>]
       def channels
         @channels ||= Channel.load data[:channels]
       end
 
+      # @return [Hash]
       def data
         super || {}
       end
 
+      # @return [Hash]
       def interpolations
         data[:interpolations] || {}
       end
 
+      # @return [Hash]
       def hydrate_data(hash)
         data.except(:interpolations).deep_merge interpolate(hash)
       end
 
       private
 
+      # traverse a hash converting values when they match {#interpolations}.
+      # @return [Hash]
       def interpolate(hash)
         return hash unless interpolations.any?
 

@@ -4,12 +4,16 @@ require 'parametric'
 
 module ServiceNotifications
   module Models
-    # Request
+    # Request. Links a unique payload ({#data}) with a {Config}.
     module Request
       def self.included(base)
         base.include Models::Base
       end
 
+      # Example:
+      #   notification: 'welcome'
+      #   recipients: [{ uid: 1, email: 'bob@example.com', objects: { first_name: 'Bob' } }]
+      #   objects: { site: 'Name of Site', url: 'https://example.com/welcome' }
       SCHEMA = Parametric::Schema.new do
         field(:notification).type(:string).required
         field(:recipients).type(:array).required
@@ -28,10 +32,12 @@ module ServiceNotifications
         templates.map(&:channel).uniq.map(&:to_sym)
       end
 
+      # @return [Hash]
       def data
         super || {}
       end
 
+      # @return [String]
       def notification
         super || begin
           self[:notification] = data[:notification]
@@ -39,10 +45,12 @@ module ServiceNotifications
         end
       end
 
+      # @return [Hash]
       def objects
         @objects ||= (hydrated_data[:objects] || {})
       end
 
+      # @return [Array<Recipient>}] filtered by whether they are subscribed to the {#notification}.
       def recipients
         @recipients ||= Recipient.load(recipients_data).select do |recipient|
           recipient.subscription?(notification)
@@ -54,11 +62,13 @@ module ServiceNotifications
       end
 
       # @abstract
+      # @return [Array<Template>]
       def templates
         raise 'define in subclass'
       end
 
       # @abstract
+      # @return [Array<Post>]
       def unprocessed_posts
         raise 'define in subclass'
       end

@@ -2,7 +2,16 @@
 
 module ServiceNotifications
   module Models
-    # Template
+    # Example data:
+    #   version: v1
+    #   notification: welcome
+    #   channel: mail
+    #   format: plain
+    #   data: |-
+    #     Subject: Welcome to the platform!
+    #     Hi {{name}},
+    #     Welcome...
+    #
     module Template
       def self.included(base)
         base.include Models::Base

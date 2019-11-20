@@ -2,9 +2,10 @@
 
 module ServiceNotifications
   # Recipent value object to be used for subscription management and interpolations
+  # @todo variables for Sendgrid style bulk interpolation.
   class Recipient < Initializer
     DATA_KEYS = [
-      :uid, :email, :phone, :objects #, variables
+      :uid, :email, :phone, :objects # , variables
     ].freeze
 
     # Post Data
@@ -14,7 +15,7 @@ module ServiceNotifications
       phone :string, optional: true
 
       objects :hash, default: -> { {} }
-      #variables :Hash, default: -> { {} }
+      # variables :Hash, default: -> { {} }
 
       # not passed through to Post
       channels :array, default: -> { ['*'] }
