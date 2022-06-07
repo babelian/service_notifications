@@ -119,7 +119,7 @@ GEM
       domain_name (~> 0.5)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
-    jmespath (1.4.0)
+    jmespath (1.6.1)
     json (2.1.0)
     liquid (4.0.1)
     listen (3.1.5)
